@@ -52,4 +52,5 @@ app.use("/",checkAuth,StaticRoute);
 app.use("/user",useroutes);
 app.use("/user/login",useroutes);
 
+
 app.listen(port,()=>console.log(`server started at port: ${port}`));
