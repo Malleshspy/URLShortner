@@ -1,5 +1,5 @@
 const User=require("../model/usermodel")
-const{setUser,getUser}=require ("../services/auth")
+const{setUser}=require ("../services/auth")
 
 async function handleuserSignup(req,res){
   const {name,email,password}=req.body;
@@ -7,7 +7,8 @@ async function handleuserSignup(req,res){
   await User.create({
     name,
     email,
-    password
+    password,
+    
 });
 return res.redirect("/");
 }
@@ -22,8 +23,8 @@ async function handleuserLogin(req,res){
   }
   
 const token=setUser(user);
- res.cookie("uid",token); 
-return res.redirect("/");
+res.cookie("token",token); 
+return res.redirect("/")
 }
 module.exports={
   handleuserSignup,

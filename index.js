@@ -1,6 +1,6 @@
 const express= require("express")
 const cookieparser=require("cookie-parser")
-const {restrictToLoggedinUserOnly,checkAuth}=require("./middleware/auth")
+const {restrictTo, checkForAuthorization}=require("./middleware/auth")
 
 const RouterUrl=require("./routes/routeurl")
 const StaticRoute=require("./routes/StaticRouter")
@@ -25,7 +25,12 @@ app.set("views",path.resolve("./views"))
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(cookieparser());
+app.use(checkForAuthorization);
 
+app.use("/url",restrictTo(["NORMAL","ADMIN"]),RouterUrl)
+app.use("/",StaticRoute);
+app.use("/user",useroutes);
+app.use("/user/login",useroutes);
 
 
 app.get("/url/:shortId",async(req,res)=>{
@@ -47,10 +52,7 @@ app.get("/url/:shortId",async(req,res)=>{
   
 })
 
-app.use("/url",restrictToLoggedinUserOnly,RouterUrl)
-app.use("/",checkAuth,StaticRoute);
-app.use("/user",useroutes);
-app.use("/user/login",useroutes);
+
 
 
 app.listen(port,()=>console.log(`server started at port: ${port}`));

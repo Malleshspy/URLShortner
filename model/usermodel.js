@@ -1,6 +1,8 @@
+const { strict } = require("assert");
 const { timeStamp } = require("console");
 
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const { type } = require("os");
 
 const UserSchema=new mongoose.Schema({
   name:{
@@ -11,6 +13,11 @@ const UserSchema=new mongoose.Schema({
       type:String,
       required:true,
       unique:true
+      },
+      role:{
+        type:String,
+        required:true,
+        default:"NORMAL"
       },
       password:{
         type:String,
